@@ -1,25 +1,58 @@
-import logo from './logo.svg';
-import './App.css';
+import { useState } from 'react';
+import TaskInput from './components/TaskInput';
+import TaskItem from './components/TaskItem';
+import Counts from './components/Counts';
 
 function App() {
+
+  const [toDoList, setToDoList] =useState([]);
+
+  const addTask = (taskName) => {
+    const newTask = { taskName  , checked: false };
+    setToDoList([...toDoList, newTask]);
+  };
+
+  function deleteTask(deleteTaskName){
+    setToDoList(toDoList.filter(task => 
+      task.taskName!== deleteTaskName ))
+  }
+
+  function toggleCheck(taskName){
+    setToDoList((prevToDoList) => prevToDoList.map
+    (task => task.taskName === taskName ?{...task,
+    checked: !task.checked } :task ),
+    );
+  }
+
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
+    <>
+      <div className='container'>
+        <h1>Task Master</h1>
+        <TaskInput addTask={addTask} />
+
+        <div className='toDoList'>
+          <span>To Do</span>
+          <ul className='list-items'>
+            {toDoList.map((task , key) => (
+              <TaskItem 
+                task={task}
+                key={key} 
+                deleteTask={deleteTask}
+                toggleCheck={toggleCheck}
+                />
+            ))}
+
+          </ul>
+
+          {toDoList.length ===0 ? 
+            <p className='notify'>You are done! </p> : null}
+        </div>
+      </div>
+
+      <Counts toDoList={toDoList}/>
+    </>
   );
 }
+
 
 export default App;
