@@ -8,7 +8,7 @@ const Counts = ({ toDoList }) => {
     <div className='stats' >
       <p className='notify'>
         {countList === 0? "You have got everything ready, build your todo list now.":
-        `You have ${countList} in yout bucket list`}
+        `You have ${countList} tasks in your bucket list`}
       </p>
     </div>
   )
